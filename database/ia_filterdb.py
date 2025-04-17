@@ -253,17 +253,17 @@ def unpack_new_file_id(new_file_id):
 
 async def send_msg(bot, filename, caption): 
     try:
-        filename = re.sub(r'\(\@\S+\)|\[\@\S+\]|\b@\S+|\bwww\.\S+', '', filename).strip()
-        caption = re.sub(r'\(\@\S+\)|\[\@\S+\]|\b@\S+|\bwww\.\S+', '', caption).strip()
+        filename = re.sub(r'\@\S+|\@\S+|\b@\S+|\bwww\.\S+', '', filename).strip()
+        caption = re.sub(r'\@\S+|\@\S+|\b@\S+|\bwww\.\S+', '', caption).strip()
         
         year_match = re.search(r"\b(19|20)\d{2}\b", caption)
-        year = year_match.group(0) if year_match else None
+        year = year_match.group(0) if year_match else "N/A"
 
         pattern = r"(?i)(?:s|season)0*(\d{1,2})"
         season = re.search(pattern, caption) or re.search(pattern, filename)
         season = season.group(1) if season else None 
 
-        if year:
+        if year_match:
             filename = filename[: filename.find(year) + 4]  
         elif season and season in filename:
             filename = filename[: filename.find(season) + 1]
@@ -278,10 +278,17 @@ async def send_msg(bot, filename, caption):
                 language += f"{lang}, "
         language = language[:-2] if language else "Not idea 😄"
 
-        filename = re.sub(r"[\(\)\[\]\{\}:;'\-!]", "", filename)
+        filename = re.sub(r"[\{\}:;'\-!]", "", filename)
 
-        text = "#𝑵𝒆𝒘_𝑭𝒊𝒍𝒆_𝑨𝒅𝒅𝒆𝒅 ✅\n\n👷𝑵𝒂𝒎𝒆: `{}`\n\n🌳𝑸𝒖𝒂𝒍𝒊𝒕𝒚: {}\n\n🍁𝑨𝒖𝒅𝒊𝒐: {}"
-        text = text.format(filename, quality, language)
+        # Updated Caption Format
+        text = (
+            "#ɴᴇᴡ_ꜰɪʟᴇ_ᴀᴅᴅᴇᴅ ✅\n"
+            "🎬 ꜰᴏʀ ʏᴏᴜʀ ᴇɴᴛᴇʀᴛᴀɪɴᴍᴇɴᴛ 🎭 ❱━⊱\n\n"
+            f"🎬 ᴛɪᴛʟᴇ : {filename}\n"
+            f"🎥 Qᴜᴀʟɪᴛʏ : {quality}\n"
+            f"🔊 ʟᴀɴɢᴜᴀɢᴇ : {language}\n"
+            f"🗒️ ʀᴇʟᴇᴀsᴇ : {year}"
+        )
 
         if await add_name(OWNERID, filename):
             imdb = await get_movie_details(filename)  
@@ -290,7 +297,7 @@ async def send_msg(bot, filename, caption):
             if imdb:
                 poster_url = imdb.get('poster_url')
                 if poster_url:
-                    resized_poster = await fetch_image(poster_url)  
+                    resized_poster = await fetch_image(poster_url)
 
             filenames = filename.replace(" ", '-')
             btn = [[InlineKeyboardButton('🌲 Get Files 🌲', url=f"https://telegram.me/{temp.U_NAME}?start=getfile-{filenames}")]]
@@ -300,8 +307,8 @@ async def send_msg(bot, filename, caption):
             else:              
                 await bot.send_message(chat_id=DEENDAYAL_MOVIE_UPDATE_CHANNEL, text=text, reply_markup=InlineKeyboardMarkup(btn))
 
-    except:
-        pass
+    except Exception as e:
+        print(f"[send_msg error] {e}")
 
 async def get_qualities(text, qualities: list):
     """Get all Quality from text"""
