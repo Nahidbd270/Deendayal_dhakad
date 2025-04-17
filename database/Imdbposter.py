@@ -15,7 +15,7 @@ def list_to_str(lst):
         return ", ".join(map(str, lst))
     return ""
 
-async def fetch_image(url, size=(720, 720)):
+async def fetch_image(url):
     if not DEENDAYAL_IMAGE_FETCH:
         print("Image fetching is disabled.")
         return None
@@ -26,9 +26,8 @@ async def fetch_image(url, size=(720, 720)):
                 if response.status == 200:
                     content = await response.read()
                     img = Image.open(BytesIO(content))
-                    img = img.resize(size, Image.LANCZOS)
                     img_byte_arr = BytesIO()
-                    img.save(img_byte_arr, format='JPEG')
+                    img.save(img_byte_arr, format='JPEG')  
                     img_byte_arr.seek(0)
                     return img_byte_arr
                 else:
