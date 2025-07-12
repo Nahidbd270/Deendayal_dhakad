@@ -84,7 +84,7 @@ HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/HowtoDowlnoad/22')  #
 # ============================
 # Link Shortener Configuration
 # ============================
-IS_SHORTLINK = bool(environ.get('IS_SHORTLINK', False))
+IS_SHORTLINK = bool(environ.get('IS_SHORTLINK',False))
 SHORTLINK_URL = environ.get('SHORTLINK_URL', 'adrinolinks.in')
 SHORTLINK_API = environ.get('SHORTLINK_API', '5da5133c9c628aea95d773fa14104754c7e62b36')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/HowtoDowlnoad/20')  # Tutorial video link for opening shortlink website
