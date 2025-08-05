@@ -8,7 +8,6 @@ from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-# from youtube_search import YoutubeSearch # এই লাইনটি বাদ দেওয়া হয়েছে
 from info import CAPTION_LANGUAGES, DATABASE_URI, DATABASE_URI2, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, MAX_B_TN, DEENDAYAL_MOVIE_UPDATE_CHANNEL, OWNERID
 from utils import get_settings, save_group_settings, temp, get_status
 from database.users_chats_db import add_name
@@ -64,7 +63,8 @@ class Media2(Document):
 async def choose_mediaDB():
     """This Function chooses which database to use based on the value of indexDB key in the dict tempDict."""
     global saveMedia
-    if tempDict['indquality == DATABASE_URI:
+    # নিচের লাইনেই ভুলটি ছিল, যা এখন সংশোধন করা হয়েছে
+    if tempDict['indexDB'] == DATABASE_URI:
         logger.info("Using first db (Media)")
         saveMedia = Media
     else:
@@ -243,9 +243,6 @@ def humanbytes(size):
         n += 1
     return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
 
-# async def search_trailer(title): # এই ফাংশনটি বাদ দেওয়া হয়েছে
-#     ...
-
 async def send_msg(bot, filename, caption, file_size): 
     try:
         clean_filename = re.sub(r'\@\S+|\@\S+|\b@\S+|\bwww\.\S+', '', filename).strip()
@@ -302,8 +299,6 @@ async def send_msg(bot, filename, caption, file_size):
             action_buttons = []
             if imdb_url:
                 action_buttons.append(InlineKeyboardButton("🎬 IMDb", url=imdb_url))
-            
-            # ট্রেইলার বাটন সম্পর্কিত কোড বাদ দেওয়া হয়েছে
             
             if action_buttons:
                 btn.append(action_buttons)
