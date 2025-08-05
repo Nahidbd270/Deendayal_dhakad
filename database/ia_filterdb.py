@@ -2,13 +2,13 @@ import logging
 from struct import pack
 import re
 import base64
-import math # নতুন ইম্পোর্ট
+import math
 from pyrogram.file_id import FileId
 from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-from youtube_search import YoutubeSearch # নতুন ইম্পোর্ট
+# from youtube_search import YoutubeSearch # এই লাইনটি বাদ দেওয়া হয়েছে
 from info import CAPTION_LANGUAGES, DATABASE_URI, DATABASE_URI2, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, MAX_B_TN, DEENDAYAL_MOVIE_UPDATE_CHANNEL, OWNERID
 from utils import get_settings, save_group_settings, temp, get_status
 from database.users_chats_db import add_name
@@ -64,7 +64,7 @@ class Media2(Document):
 async def choose_mediaDB():
     """This Function chooses which database to use based on the value of indexDB key in the dict tempDict."""
     global saveMedia
-    if tempDict['indexDB'] == DATABASE_URI:
+    if tempDict['indquality == DATABASE_URI:
         logger.info("Using first db (Media)")
         saveMedia = Media
     else:
@@ -101,12 +101,12 @@ async def save_file(bot, media):
     except DuplicateKeyError:
       logger.warning(f'{getattr(media, "file_name", "NO_FILE")} is already saved in database, but sending update post as requested.')
       if await get_status(bot.me.id):
-          await send_msg(bot, file.file_name, file.caption, file.file_size) # file_size পাস করা হচ্ছে
+          await send_msg(bot, file.file_name, file.caption, file.file_size)
       return False, 0
     else:
         logger.info(f'{getattr(media, "file_name", "NO_FILE")} is saved to database')
         if await get_status(bot.me.id):
-            await send_msg(bot, file.file_name, file.caption, file.file_size) # file_size পাস করা হচ্ছে
+            await send_msg(bot, file.file_name, file.caption, file.file_size)
         return True, 1
 
 async def get_search_results(chat_id, query, file_type=None, max_results=10, offset=0, filter=False):
@@ -243,14 +243,8 @@ def humanbytes(size):
         n += 1
     return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
 
-async def search_trailer(title):
-    try:
-        results = YoutubeSearch(f"{title} official trailer", max_results=1).to_dict()
-        if results:
-            return f"https://www.youtube.com{results[0]['url_suffix']}"
-    except Exception as e:
-        logger.error(f"Trailer search error for {title}: {e}")
-        return None
+# async def search_trailer(title): # এই ফাংশনটি বাদ দেওয়া হয়েছে
+#     ...
 
 async def send_msg(bot, filename, caption, file_size): 
     try:
@@ -309,9 +303,7 @@ async def send_msg(bot, filename, caption, file_size):
             if imdb_url:
                 action_buttons.append(InlineKeyboardButton("🎬 IMDb", url=imdb_url))
             
-            trailer_url = await search_trailer(title)
-            if trailer_url:
-                action_buttons.append(InlineKeyboardButton("▶️ Trailer", url=trailer_url))
+            # ট্রেইলার বাটন সম্পর্কিত কোড বাদ দেওয়া হয়েছে
             
             if action_buttons:
                 btn.append(action_buttons)
