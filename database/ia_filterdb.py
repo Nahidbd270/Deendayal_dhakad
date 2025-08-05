@@ -73,7 +73,10 @@ async def save_file(bot, media):
   """Save file in database"""
   global saveMedia
   file_id, file_ref = unpack_new_file_id(media.file_id)
-  file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name))
+  
+  # SOLVED: This line now correctly replaces parentheses () along with other characters.
+  file_name = re.sub(r"(_|\-|\.|\+|\(|\))", " ", str(media.file_name))
+  
   try:
     if saveMedia == Media2: 
         if await Media.count_documents({'file_id': file_id}, limit=1):
@@ -318,9 +321,3 @@ async def get_qualities(text, qualities: list):
             quality.append(q)
     quality = ", ".join(quality)
     return quality[:-2] if quality.endswith(", ") else quality
-
-
-
-
-
-
