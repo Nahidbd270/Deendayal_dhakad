@@ -76,7 +76,7 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 # ============================
 # Verification Settings
 # ============================
-VERIFY = bool(environ.get('VERIFY',False))  # Verification On (True) / Off (False)
+VERIFY = bool(environ.get('VERIFY',True))  # Verification On (True) / Off (False)
 DEENDAYAL_VERIFY_EXPIRE = int(environ.get('DEENDAYAL_VERIFY_EXPIRE', 12))  # Add time in hours
 DEENDAYAL_VERIFIED_LOG = int(environ.get('DEENDAYAL_VERIFIED_LOG', '-1002602055892'))  # Log channel id (make sure bot is admin)
 HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/HowtoDowlnoad/22')  # How to open tutorial link for verification
@@ -85,8 +85,8 @@ HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/HowtoDowlnoad/22')  #
 # Link Shortener Configuration
 # ============================
 IS_SHORTLINK = bool(environ.get('IS_SHORTLINK',False))
-SHORTLINK_URL = environ.get('SHORTLINK_URL', 'adrinolinks.in')
-SHORTLINK_API = environ.get('SHORTLINK_API', '5da5133c9c628aea95d773fa14104754c7e62b36')
+SHORTLINK_URL = environ.get('SHORTLINK_URL', 'arolinks.com')
+SHORTLINK_API = environ.get('SHORTLINK_API', '89ff7ed9d4b4aaaf7a7158a590043d3cd02ae488')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/HowtoDowlnoad/20')  # Tutorial video link for opening shortlink website
 IS_TUTORIAL = bool(environ.get('IS_TUTORIAL', False))
 
